@@ -1,0 +1,84 @@
+### **1. Fundamentos do NestJS**
+
+- **Objetivo**: Entender os princípios básicos e a estrutura do NestJS.
+- **Conteúdo**:
+    - O que é NestJS?
+        - Diferenças entre NestJS e Express.js.
+        - Inversão de Controle (IoC) e Injeção de Dependência (DI).
+    - Estrutura de um projeto:
+        - Módulos, Controladores e Serviços.
+    - CLI do NestJS:
+        - Criando projetos e gerando módulos/recursos.
+    - **Atividade prática**:
+        - Criar um projeto básico com rotas para gerenciar usuários.
+
+---
+
+### **2. Trabalhando com Banco de Dados**
+
+- **Objetivo**: Persistir dados utilizando bibliotecas e ORMs.
+- **Conteúdo**:
+    - Banco de dados com NestJS:
+        - Configuração de conexões com TypeORM ou Prisma.
+        - Criando entidades e relacionamentos.
+    - Repositories e Services:
+        - Separação de responsabilidades e boas práticas.
+    - **Atividade prática**:
+        - Criar uma API CRUD para gerenciamento de produtos em um banco relacional.
+
+---
+
+### **3. Middleware, Guards e Interceptors**
+
+- **Objetivo**: Criar funcionalidades avançadas de backend.
+- **Conteúdo**:
+    - Middleware:
+        - Implementação e uso para manipulação de requests.
+    - Guards:
+        - Implementando autenticação e autorização.
+    - Interceptors:
+        - Manipulação de responses e tratamento de erros.
+    - **Atividade prática**:
+        - Criar um sistema de autenticação JWT com proteção de rotas usando Guards.
+
+---
+
+### **4. Arquitetura Avançada: Domain-Driven Design e Clean Architecture**
+
+- **Objetivo**: Criar sistemas robustos e escaláveis com boas práticas.
+- **Conteúdo**:
+    - Revisitando DDD:
+        - Implementação prática com NestJS.
+    - Clean Architecture:
+        - Organização das camadas (Domínio, Aplicação, Infraestrutura).
+    - **Atividade prática**:
+        - Criar um sistema de agendamento de consultas médicas seguindo Clean Architecture com DDD.
+
+---
+
+### **5. Microsserviços com NestJS**
+
+- **Objetivo**: Dividir sistemas monolíticos em microsserviços independentes.
+- **Conteúdo**:
+    - Introdução a Microsserviços:
+        - Quando e por que usar?
+        - Comunicação entre microsserviços (RPC, eventos).
+    - Implementação com NestJS:
+        - Criando microsserviços usando RabbitMQ e Kafka.
+        - Gerenciando filas e mensagens.
+    - **Atividade prática**:
+        - Criar um sistema de notificações baseado em microsserviços.
+
+---
+
+### **6. Deploy e Gerenciamento de Projetos**
+
+- **Objetivo**: Preparar sistemas NestJS para produção.
+- **Conteúdo**:
+    - Deploy:
+        - Deploy em ambientes Docker.
+        - Configuração de CI/CD com GitHub Actions.
+    - Performance:
+        - Cache com Redis.
+        - Monitoramento com ferramentas como Prometheus e Grafana.
+    - **Atividade prática**:
