@@ -1,14 +1,8 @@
-### **1. Fundamentos do NestJS**
 
-- **Objetivo**: Entender os princípios básicos e a estrutura do NestJS.
-- **Conteúdo**:
-    - O que é NestJS?
-        - Diferenças entre NestJS e Express.js.
-        - Inversão de Controle (IoC) e Injeção de Dependência (DI).
     - Estrutura de um projeto:
         - Módulos, Controladores e Serviços.
-    - CLI do NestJS:
-        - Criando projetos e gerando módulos/recursos.
+    - CLI do NestJS: npm i -g @nestjs/cli nest new project-name nest generate controller hello
+        - Criando projetos e gerando módulos/recursos. 
     - **Atividade prática**:
         - Criar um projeto básico com rotas para gerenciar usuários.
 
