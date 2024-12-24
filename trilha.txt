@@ -1,13 +1,3 @@
-
-    - Estrutura de um projeto:
-        - Módulos, Controladores e Serviços.
-    - CLI do NestJS: npm i -g @nestjs/cli nest new project-name nest generate controller hello
-        - Criando projetos e gerando módulos/recursos. 
-    - **Atividade prática**:
-        - Criar um projeto básico com rotas para gerenciar usuários.
-
----
-
 ### **2. Trabalhando com Banco de Dados**
 
 - **Objetivo**: Persistir dados utilizando bibliotecas e ORMs.
