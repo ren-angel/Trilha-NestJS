@@ -1,10 +1,4 @@
-### **2. Trabalhando com Banco de Dados**
-
-- **Objetivo**: Persistir dados utilizando bibliotecas e ORMs.
-- **Conteúdo**:
-    - Banco de dados com NestJS:
-        - Configuração de conexões com TypeORM ou Prisma.
-        - Criando entidades e relacionamentos.
+    - Comentar códigos
     - Repositories e Services:
         - Separação de responsabilidades e boas práticas.
     - **Atividade prática**:
