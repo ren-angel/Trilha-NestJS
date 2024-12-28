@@ -20,20 +20,20 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id') id: string) {
 
-    return this.userService.findOne(id);
+    return this.userService.findOne(+id);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() data: Partial<User>) {
+  update(@Param('id') id: string, @Body() data: Partial<User>) {
 
-    return this.userService.update(id, data);
+    return this.userService.update(+id, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: string) {
     
-    return this.userService.remove(id);
+    return this.userService.remove(+id);
   }
 }

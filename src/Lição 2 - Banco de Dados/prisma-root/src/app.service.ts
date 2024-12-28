@@ -4,6 +4,7 @@ import { PrismaService } from './prisma.service';
 @Injectable()
 export class UserService {
 
+  // No construtor, injetamos o PrismaService, que nos da acesso a métodos para interagir com o banco de dados (como salvar, buscar, atualizar, deletar).
   constructor(private prisma: PrismaService) {}
 
   create(data: { name: string; email: string }) {

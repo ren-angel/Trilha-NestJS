@@ -1,20 +1,23 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Pasta criada pelo prisma ao inicia-lo com:
+// npx prisma init
 
 generator client {
   provider = "prisma-client-js"
 }
 
+// Atualize para conter o SGBD desejado e o .env para o url do seu banco
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+// Aqui definimos os modelos (tabelas) do banco
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id    Int    @id @default(autoincrement()) // @id indica que está coluna será a chave primária (primary key). @default() indica dentro do pârenteses o valor padrão deste campo, que no caso colocamos autoincrement() para que seu valor padrão seja gerado automaticamente
+
+  // Aqui colocamos os outros campos junto com seus tipos
+  name  String 
   email String
 }
+
+// 'npx prisma migrate dev --name init' criará as tabelas no banco e sincronizará o esquema
