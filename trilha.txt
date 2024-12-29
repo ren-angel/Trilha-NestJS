@@ -58,3 +58,31 @@
         - Cache com Redis.
         - Monitoramento com ferramentas como Prometheus e Grafana.
     - **Atividade prática**:
+        - Dockerizar um microsserviço e realizar o deploy em Kubernetes.
+
+---
+
+### **7. Testes Unitários e de Integração no NestJS**  
+
+- **Objetivo**: Garantir a qualidade e a confiabilidade do código por meio de testes.  
+- **Conteúdo**:  
+    - **Introdução aos testes no NestJS**:  
+        - Diferença entre testes unitários, de integração e end-to-end (E2E).  
+        - Benefícios de uma abordagem orientada a testes.  
+    - **Configuração de testes no NestJS**:  
+        - Ferramentas nativas: Jest e Supertest.  
+        - Configuração básica de ambiente de testes.  
+    - **Testes Unitários**:  
+        - Testando serviços e controladores isoladamente.  
+        - Uso de mocks e stubs para dependências externas.  
+        - Cobertura de testes: como medir e melhorar.  
+    - **Testes de Integração**:  
+        - Testando a interação entre módulos e camadas.  
+        - Configuração de banco de dados para testes (exemplo: SQLite ou banco em memória).  
+    - **Testes End-to-End (E2E)**:  
+        - Criação de cenários para simular o fluxo completo da aplicação.  
+        - Testando APIs e validações.  
+    - **Atividade prática**:  
+        - Escrever testes unitários para serviços e controladores.  
+        - Implementar testes de integração para o módulo de gerenciamento de usuários.  
+        - Criar um teste E2E para validar a API CRUD de produtos.
