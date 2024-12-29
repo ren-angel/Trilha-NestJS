@@ -1,6 +1,5 @@
 
-    - **Atividade prática**:
-        - Criar uma API CRUD para gerenciamento de produtos em um banco relacional.
+    testar prática
 
 ---
 
