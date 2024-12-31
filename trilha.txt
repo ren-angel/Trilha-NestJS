@@ -4,7 +4,7 @@
     - Clean Architecture:
         - Organização das camadas (Domínio, Aplicação, Infraestrutura).
     - **Atividade prática**:
-        - Criar um sistema de agendamento de consultas médicas seguindo Clean Architecture com DDD.
+        - Refatorar o sistema de gestão de produtos seguindo Clean Architecture com DDD.
 
 ---
 
