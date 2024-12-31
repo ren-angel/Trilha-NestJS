@@ -18,8 +18,6 @@ import { Product } from './product/entities/product.entity';
       synchronize: true,
     }),
 
-    TypeOrmModule.forFeature([Product]),
-
     ProductModule,
   ],
   controllers: [AppController],
