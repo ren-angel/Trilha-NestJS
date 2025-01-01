@@ -9,7 +9,8 @@ import { UserModule } from './user.module';
 
 @Module({
   imports: [UserModule, PassportModule, JwtModule.register({ secret: process.env.SECRET_KEY, signOptions: { expiresIn: '1h' } })],
-  providers: [AuthService, JwtStrategy, LoginUseCase],
+  // providers: [AuthService, JwtStrategy, LoginUseCase],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
   exports: [JwtModule],
 })

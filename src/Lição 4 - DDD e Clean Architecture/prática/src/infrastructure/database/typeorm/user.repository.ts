@@ -5,6 +5,7 @@ import { UserRepositoryInterface } from "../../../domain/repositories/user.repos
 import { User } from "../../../domain/entities/user.entity";
 
 @Injectable()
+// Implementação concreta da interface UserRepositoryInterface usando o TypeORM.
 export class TypeOrmUserRepository implements UserRepositoryInterface {
 
   constructor(
@@ -12,7 +13,7 @@ export class TypeOrmUserRepository implements UserRepositoryInterface {
   ) {}
 
   findOne(username: string, id: number) {
-    
+
     return this.userRepository.findOne({ where: { id, username } });
   }
 }
