@@ -55,9 +55,10 @@ Você será responsável por desenvolver uma plataforma para gerenciar eventos c
 6. **Testes**:  
    - Escreva testes unitários para serviços e controladores.  
    - Escreva testes de integração para verificar a interação entre módulos.  
-   - Crie testes E2E para validar o fluxo completo, como a inscrição de um participante em um evento.  
+   - Crie testes E2E para validar o fluxo completo, como a inscrição de um participante em um evento.
 
 #### **Bônus (Desafios Extras)**  
 - Implementar notificações em tempo real usando WebSockets.  
 - Adicionar monitoramento com Prometheus e Grafana para exibir métricas de performance.  
 - Implementar fila de mensagens para limitar a quantidade de participantes por evento de forma segura.
+- Documentação do projeto no README
