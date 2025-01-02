@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { ProductModule } from './infrastructure/http/modules/product.module';
 import { Product } from './domain/entities/product.entity';
@@ -8,20 +8,26 @@ import { User } from './domain/entities/user.entity';
 
 @Module({
   imports: [
+    // Importa o ConfigModule para habilitar o uso de variáveis de ambiente em toda a aplicação
     ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '../.env',
+      isGlobal: true, // Torna o ConfigModule disponível globalmente sem necessidade de importá-lo em outros módulos
+      // envFilePath: '../.env', // Especifica o caminho para o arquivo .env onde as variáveis de ambiente estão definidas. Por padrão, o arquivo .env é procurado na raiz do projeto.
     }),
 
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      entities: [Product, User],
-      synchronize: true,
+    // Configuração assíncrona do TypeOrmModule para usar o ConfigService e acessar variáveis de ambiente dinamicamente.
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: configService.get<number>('DATABASE_PORT'),
+        username: configService.get<string>('DATABASE_USER'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+        entities: [Product, User],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
 
     ProductModule,

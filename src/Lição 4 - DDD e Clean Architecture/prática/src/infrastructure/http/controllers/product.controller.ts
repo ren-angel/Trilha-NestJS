@@ -1,40 +1,53 @@
 import { Controller, UseGuards, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { JwtAuthGuard } from '../../security/jwt.guard';
-import { ProductService } from '../../../domain/services/product.service';
 import { CreateProductDto } from '../../../application/dtos/create-product.dto';
 import { UpdateProductDto } from '../../../application/dtos/update-product.dto';
+
+import { CreateProductUseCase } from 'src/application/use-cases/createProduct.use-case';
+import { FindAllProductsUseCase } from 'src/application/use-cases/findAllProducts.use-case';
+import { FindOneProductUseCase } from 'src/application/use-cases/findOneProduct.use-case';
+import { UpdateProductUseCase } from 'src/application/use-cases/updateProduct.use-case';
+import { RemoveProductUseCase } from 'src/application/use-cases/removeProduct.use-case';
 
 @Controller('product')
 @UseGuards(JwtAuthGuard)
 export class ProductController {
 
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly createProductUseCase: CreateProductUseCase,
+    private readonly findAllProductsUseCase: FindAllProductsUseCase,
+    private readonly findOneProductUseCase: FindOneProductUseCase,
+    private readonly updateProductUseCase: UpdateProductUseCase,
+    private readonly removeProductUseCase: RemoveProductUseCase,
+  ) {}
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
 
-    return this.productService.create(createProductDto);
+    return this.createProductUseCase.execute(createProductDto);
   }
 
   @Get()
   findAll() {
 
-    return this.productService.findAll();
+    return this.findAllProductsUseCase.execute();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+
+    return this.findOneProductUseCase.execute(+id);
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+
+    return this.updateProductUseCase.execute(+id, updateProductDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     
-    return this.productService.remove(+id);
+    return this.removeProductUseCase.execute(+id);
   }
 }

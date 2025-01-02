@@ -1,14 +1,14 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { AuthService } from '../../../domain/services/auth.service';
+import { LoginUseCase } from 'src/application/use-cases/login.use-case';
 
 @Controller('auth')
 export class AuthController {
 
-  constructor(private authService: AuthService) {}
+  constructor(private loginUseCase: LoginUseCase) {}
 
   @Post('login')
   async login(@Body() user: { username: string, id: number }) {
     
-    return this.authService.login(user);
+    return this.loginUseCase.execute(user.username, user.id);
   }
 }

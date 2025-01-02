@@ -1,25 +1,9 @@
 
-    - Revisitando DDD:
-        - Implementação prática com NestJS.
-    - Clean Architecture:
-        - Organização das camadas (Domínio, Aplicação, Infraestrutura).
-    - **Atividade prática**:
-        - Refatorar o sistema de gestão de produtos seguindo Clean Architecture com DDD.
-
----
-
-### **5. Microsserviços com NestJS**
-
-- **Objetivo**: Dividir sistemas monolíticos em microsserviços independentes.
-- **Conteúdo**:
     - Introdução a Microsserviços:
-        - Quando e por que usar?
-        - Comunicação entre microsserviços (RPC, eventos).
-    - Implementação com NestJS:
-        - Criando microsserviços usando RabbitMQ e Kafka.
-        - Gerenciando filas e mensagens.
+    - Criando microsserviços usando RabbitMQ e Kafka.
+    - Gerenciando filas e mensagens.
     - **Atividade prática**:
-        - Criar um sistema de notificações baseado em microsserviços.
+        - Criar um sistema de notificações baseado em microsserviços. (Praticar ambos RabbitMQ e Kafka)
 
 ---
 

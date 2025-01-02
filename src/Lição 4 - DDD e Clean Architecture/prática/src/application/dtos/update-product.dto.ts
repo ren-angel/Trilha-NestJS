@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsPositive, IsDecimal, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsPositive, IsDecimal, IsOptional } from 'class-validator';
 
 export class UpdateProductDto {
 
