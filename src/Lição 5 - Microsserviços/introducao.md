@@ -47,8 +47,7 @@ A comunicação entre microsserviços no NestJS pode ser feita por **RPC (Remote
 #### **RPC (Remote Procedure Call):**
 - **Como funciona:** 
   - Comunicação síncrona entre serviços, onde um serviço faz uma chamada e espera a resposta.
-  - Implementado geralmente usando protocolos como **gRPC**, **TCP**, ou **HTTP**.
-  
+
 - **Quando usar?**
   - Quando é necessário um feedback imediato do serviço chamado.
   - Em fluxos que dependem de resposta direta para continuar o processamento.
@@ -78,7 +77,6 @@ A comunicação entre microsserviços no NestJS pode ser feita por **RPC (Remote
 #### **Comunicação por Eventos (Event-Driven):**
 - **Como funciona:**
   - Comunicação assíncrona baseada em publicação (evento) e assinatura (publish/subscribe, ou simplesmente pub/sub), onde os serviços publicam eventos que são consumidos por outros serviços interessados.
-  - Implementado com ferramentas como **Redis**, **RabbitMQ**, ou **Kafka**.
 
 - **Quando usar?**
   - Para comunicação desacoplada.

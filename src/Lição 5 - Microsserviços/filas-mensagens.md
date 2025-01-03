@@ -92,6 +92,8 @@ RabbitMQ não suporta nativamente mensagens atrasadas, mas você pode usar um **
 
 Por padrão, o Kafka consome mensagens automaticamente, mas você pode gerenciar manualmente os offsets para garantir que apenas mensagens processadas sejam consideradas como lidas.
 
+**Offsets:** Um marcador que indica até qual mensagem um consumidor leu em uma fila de mensagens. Ele ajuda o sistema a saber qual é a próxima mensagem a ser processada, para que o consumidor não perca nem leia a mesma mensagem mais de uma vez.
+
 - Consumidor Kafka com commit manual:
   ```typescript
   @MessagePattern('processar_pedido')
@@ -117,11 +119,17 @@ Por padrão, o Kafka consome mensagens automaticamente, mas você pode gerenciar
 ### **Particionamento e Balanceamento de Carga**
 
 - Kafka permite particionar tópicos para distribuir a carga entre vários consumidores. Ao configurar partições:
+
+**Tópicos:** Essencialmente, a caixas de correio do Kafka, categorizada por tipo de mensagens, como `pedidos de pizza`, `pedidos de hambúrguer`, etc.
+**Partições:** Assim como as partições de um HD, aqui particionar um tópico é dividi-lo em "caixas" menoras para aumentar eficiência.
+
   - **Particionamento**:
     Configure ao criar o tópico:
     ```bash
     kafka-topics --create --topic processar_pedido --partitions 3 --replication-factor 1 --bootstrap-server localhost:9092
     ```
+
+Com isso, podemos dividir o trabalho entre consumidores num mesmo grupo. Quando um grupo de consumidores está configurado para ler de um tópico, eles dividem o trabalho. Se o tópico tem várias partições, cada consumidor pode ficar responsável por ler uma ou mais dessas partições. Isso significa que se um consumidor ficar sobrecarregado ou falhar, os outros consumidores do grupo podem continuar o trabalho.
 
   - **Consumidor com grupo**:
     Consumidores em um grupo automaticamente compartilham mensagens entre si:

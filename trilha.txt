@@ -1,12 +1,3 @@
-
-    - Introdução a Microsserviços:
-    - Criando microsserviços usando RabbitMQ e Kafka.
-    - Gerenciando filas e mensagens.
-    - **Atividade prática**:
-        - Criar um sistema de notificações baseado em microsserviços. (Praticar ambos RabbitMQ e Kafka)
-
----
-
 ### **6. Deploy e Gerenciamento de Projetos**
 
 - **Objetivo**: Preparar sistemas NestJS para produção.

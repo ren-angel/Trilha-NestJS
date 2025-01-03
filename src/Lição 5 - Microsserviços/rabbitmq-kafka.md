@@ -3,11 +3,53 @@ Implementar microsserviços com **RabbitMQ** e **Kafka** no **NestJS** envolve c
 - **RabbitMQ**: Baseado em mensagens com suporte a filas e roteamento flexível. É ótimo para padrões RPC e pub/sub.
 - **Kafka**: Um sistema de logs distribuídos projetado para alta escala e throughput. Ideal para processamento de eventos em larga escala.
 
+---
+
+Há muitos termos inéditos aqui, então irei fazer um glossário para cada um deles:
+
+- **Mensagens**:
+   - São pedaços de dados enviados de um sistema para outro.
+   - Elas contêm informações (como comandos, notificações ou dados) que um sistema precisa processar.
+   - Exemplos:
+     - Uma mensagem pode conter: "Pedido #123 foi criado".
+     - Outra mensagem pode ser: "Atualizar o estoque do produto X".
+
+2. **Filas**:
+   - Uma fila é como uma linha de espera onde as mensagens ficam armazenadas até serem processadas.
+   - Pense em uma fila no banco: as pessoas entram na fila, esperam sua vez, e são atendidas uma por vez.
+   - No contexto de sistemas, as filas garantem que as mensagens sejam processadas na ordem em que chegaram.
+   - Após serem processadas, elas são removidas.
+
+3. **O que é roteamento?**
+   - É decidir para onde enviar uma mensagem.
+   - Com RabbitMQ, você pode configurar **regras de roteamento** para determinar qual fila receberá cada mensagem.
+
+4. **Por que é "flexível"?**
+   - Você pode definir critérios personalizados para o roteamento.
+   - Exemplo:
+     - Mensagens sobre pedidos vão para a fila `pedidos`.
+     - Mensagens sobre pagamentos vão para a fila `pagamentos`.
+
+5. **O que é um log distribuído?**
+   - Um **log** aqui não é apenas um registro de eventos como em arquivos de log. É uma estrutura onde todas as mensagens recebidas são armazenadas em sequência.
+   - Essas mensagens podem ser lidas por diferentes sistemas a qualquer momento.
+   - Exemplo:
+     - O Kafka recebe mensagens sobre "vendas realizadas".
+     - Um sistema pode ler essas mensagens para atualizar o estoque.
+     - Outro sistema pode ler as mesmas mensagens para gerar relatórios financeiros.
+   - Um **sistema distribuído** significa que essa estrutura é dividida em várias máquinas, o que permite lidar com grandes volumes de dados.
+
+6. **O que é throughput?**
+   - É a quantidade de mensagens que um sistema pode processar por segundo.
+   - Alta capacidade de throughput significa que o sistema consegue lidar com muitas mensagens ao mesmo tempo sem ficar lento.
+
+Pense no RabbitMQ como um **correio organizado** e Kafka como uma **central de distribuição de dados**.
+
+---
+
 A seguir, abordaremos a implementação com cada ferramenta.
 
 OBS.: Para ambos, é necessário fazer a instalação de seus respectivos softwares (RabbitMQ e Apache Kafka) em sua máquina local ou em um contêiner Docker. Por conveniência, estarei usando o método do Docker.
-
----
 
 ### **Implementando Microsserviços com RabbitMQ**
 
@@ -18,7 +60,7 @@ docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
 
 #### **2. Instale as dependências**
 ```bash
-npm install @nestjs/microservices amqplib
+npm install @nestjs/microservices amqplib amqp-connection-manager
 ```
 
 #### **3. Configuração do Transportador**
@@ -26,31 +68,40 @@ No NestJS, configure o transportador para RabbitMQ usando o módulo de microsser
 
 - **Produtor (Client)**:
   ```typescript
-  import { ClientProxyFactory, Transport, ClientProxy } from '@nestjs/microservices';
+  import { Module } from '@nestjs/common';
+  import { ClientsModule, Transport } from '@nestjs/microservices';
+  import { NotificationService } from './notification/notification.service';
+  import { NotificationController } from './notification/notification.controller';
 
-  @Injectable()
-  export class RabbitMQClientService {
-    private client: ClientProxy;
-
-    constructor() {
-      this.client = ClientProxyFactory.create({
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'main_queue',
-          queueOptions: {
-            durable: false,
+  @Module({
+    imports: [
+      ClientsModule.register([
+        {
+          name: 'NOTIFICATION_SERVICE',
+          transport: Transport.RMQ,
+          options: {
+            urls: ['amqp://localhost:5672'],
+            queue: 'notifications_queue',
+            queueOptions: { durable: true },
           },
         },
-      });
-    }
+      ]),
+    ],
+    controllers: [NotificationController],
+    providers: [NotificationService],
+  })
+  export class AppModule {}
+  ```
 
-    send(pattern: string, data: any) {
-      return this.client.send(pattern, data).toPromise();
-    }
+- **Service**:
+  ```typescript
+  import { Injectable } from '@nestjs/common';
 
-    emit(pattern: string, data: any) {
-      return this.client.emit(pattern, data);
+  @Injectable()
+  export class NotificationService {
+    processNotification(message: any): void {
+      console.log('Processing notification:', message);
+      console.log(`Sending email to ${message.to} with content: ${message.content}`);
     }
   }
   ```
@@ -58,18 +109,17 @@ No NestJS, configure o transportador para RabbitMQ usando o módulo de microsser
 - **Consumidor (Listener)**:
   ```typescript
   import { Controller } from '@nestjs/common';
-  import { MessagePattern, EventPattern } from '@nestjs/microservices';
+  import { EventPattern, Payload } from '@nestjs/microservices';
+  import { NotificationService } from './notification.service';
 
   @Controller()
-  export class RabbitMQConsumerController {
-    @MessagePattern('soma')
-    handleSoma(data: { a: number; b: number }): number {
-      return data.a + data.b;
-    }
+  export class NotificationController {
+    constructor(private readonly notificationService: NotificationService) {}
 
-    @EventPattern('user.created')
-    handleUserCreated(data: { userId: string }) {
-      console.log(`Usuário criado: ${data.userId}`);
+    @EventPattern('notifications')
+    handleNotification(@Payload() data: any) {
+      console.log('Received notification:', data);
+      this.notificationService.processNotification(data);
     }
   }
   ```
@@ -78,18 +128,22 @@ No NestJS, configure o transportador para RabbitMQ usando o módulo de microsser
 No arquivo principal (`main.ts`), inicie o serviço como microserviço:
 
 ```typescript
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(AppModule, {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.RMQ,
     options: {
       urls: ['amqp://localhost:5672'],
-      queue: 'main_queue',
-      queueOptions: {
-        durable: false,
-      },
+      queue: 'notifications_queue',
+      queueOptions: { durable: true },
     },
   });
+
   await app.listen();
+  console.log('Notification Microservice is running');
 }
 bootstrap();
 ```
@@ -112,6 +166,8 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka
+    depends_on:
+      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -135,32 +191,43 @@ npm install @nestjs/microservices kafkajs
 #### **3. Configuração do Transportador**
 - **Produtor (Client)**:
   ```typescript
-  import { ClientProxyFactory, Transport, ClientProxy } from '@nestjs/microservices';
+  import { Module } from '@nestjs/common';
+  import { ClientsModule, Transport } from '@nestjs/microservices';
+  import { NotificationService } from './notification/notification.service';
+  import { NotificationController } from './notification/notification.controller';
 
-  @Injectable()
-  export class KafkaClientService {
-    private client: ClientProxy;
-
-    constructor() {
-      this.client = ClientProxyFactory.create({
-        transport: Transport.KAFKA,
-        options: {
-          client: {
-            brokers: ['localhost:9092'],
-          },
-          consumer: {
-            groupId: 'my-consumer-group',
+  @Module({
+    imports: [
+      ClientsModule.register([
+        {
+          name: 'NOTIFICATION_SERVICE',
+          transport: Transport.KAFKA,
+          options: {
+            client: {
+              brokers: ['localhost:9092'],
+            },
+            consumer: {
+              groupId: 'notification-consumer',
+            },
           },
         },
-      });
-    }
+      ]),
+    ],
+    controllers: [NotificationController],
+    providers: [NotificationService],
+  })
+  export class AppModule {}
+  ```
 
-    send(topic: string, data: any) {
-      return this.client.send(topic, data).toPromise();
-    }
+- **Service**:
+  ```typescript
+  import { Injectable } from '@nestjs/common';
 
-    emit(topic: string, data: any) {
-      return this.client.emit(topic, data);
+  @Injectable()
+  export class NotificationService {
+    processNotification(message: any): void {
+      console.log('Processing notification:', message);
+      console.log(`Sending email to ${message.to} with content: ${message.content}`);
     }
   }
   ```
@@ -168,18 +235,18 @@ npm install @nestjs/microservices kafkajs
 - **Consumidor (Listener)**:
   ```typescript
   import { Controller } from '@nestjs/common';
-  import { MessagePattern, EventPattern } from '@nestjs/microservices';
+  import { EventPattern, Payload } from '@nestjs/microservices';
+  import { NotificationService } from './notification.service';
 
   @Controller()
-  export class KafkaConsumerController {
-    @MessagePattern('soma')
-    handleSoma(data: { a: number; b: number }): number {
-      return data.a + data.b;
-    }
+  export class NotificationController {
+    constructor(private readonly notificationService: NotificationService) {}
 
-    @EventPattern('user.created')
-    handleUserCreated(data: { userId: string }) {
-      console.log(`Usuário criado: ${data.userId}`);
+    @EventPattern('notifications')
+    handleNotification(@Payload() data: any) {
+      const message = data?.value ? JSON.parse(data.value) : data;
+      console.log('Received notification:', message);
+      this.notificationService.processNotification(message);
     }
   }
   ```
@@ -188,19 +255,25 @@ npm install @nestjs/microservices kafkajs
 No arquivo principal (`main.ts`), configure o Kafka:
 
 ```typescript
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(AppModule, {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.KAFKA,
     options: {
       client: {
-        brokers: ['localhost:9092'],
+        brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
       },
       consumer: {
-        groupId: 'my-consumer-group',
+        groupId: 'notification-consumer',
       },
     },
   });
+
   await app.listen();
+  console.log('Notification Microservice is running');
 }
 bootstrap();
 ```
