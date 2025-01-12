@@ -69,6 +69,7 @@ Grafana é uma ferramenta de visualização de métricas que se integra ao Prome
     diretorio\do\grafana\bin\grafana-server.exe
     ```
   - Acesse o painel em `http://localhost:3000` e configure Prometheus como fonte de dados.
+  - No caso de ele pedir para você fazer login, seu nome de usuário e senha padrões são `admin` para ambos.
 
 #### 2. **Exporters para Métricas**
 - Use **exporters** para coletar métricas de serviços populares:
