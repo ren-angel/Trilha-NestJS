@@ -1,15 +1,11 @@
-### **6. Deploy e Gerenciamento de Projetos**
 
-- **Objetivo**: Preparar sistemas NestJS para produção.
-- **Conteúdo**:
-    - Deploy:
-        - Deploy em ambientes Docker.
-        - Configuração de CI/CD com GitHub Actions.
-    - Performance:
-        - Cache com Redis.
-        - Monitoramento com ferramentas como Prometheus e Grafana.
     - **Atividade prática**:
-        - Dockerizar um microsserviço e realizar o deploy em Kubernetes.
+        Microsserviço:
+        - Redis
+        - Dockerizar
+        - Monitoramento
+        - Deploy em Kubernetes
+        - CI/CD
 
 ---
 
