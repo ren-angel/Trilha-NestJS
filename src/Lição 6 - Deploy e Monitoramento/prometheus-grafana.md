@@ -66,7 +66,7 @@ Grafana é uma ferramenta de visualização de métricas que se integra ao Prome
   - Baixe e instale o Grafana, ou use sua versão cloud online em [https://grafana.com/products/cloud/](https://grafana.com/products/cloud/)
   - Inicie o Grafana:
     ```bash
-    grafana-server
+    diretorio\do\grafana\bin\grafana-server.exe
     ```
   - Acesse o painel em `http://localhost:3000` e configure Prometheus como fonte de dados.
 
