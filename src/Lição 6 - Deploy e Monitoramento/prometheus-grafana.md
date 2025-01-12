@@ -128,6 +128,10 @@ Grafana é uma ferramenta de visualização de métricas que se integra ao Prome
 ---
 
 ### **Alertas com Prometheus e Grafana**
+- Instale o **Alertmanager** na sua máquina. Aqui irei instalar ele com Docker, usando:
+```bash
+docker run -d -p 9093:9093 prom/alertmanager
+``` 
 - Configure o **Alertmanager** no Prometheus:
   ```yaml
   alerting:
