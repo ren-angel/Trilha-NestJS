@@ -14,13 +14,16 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Instalar dependências
-RUN npm install --production
+RUN npm install
 
 # Copiar todo o código para dentro do contêiner
 COPY . .
 
 # Compilar o código TypeScript para JavaScript
 RUN npm run build
+
+# Remove dependências de desenvolvimento após o build
+RUN npm prune --production
 
 # Expor a porta que a aplicação usa
 EXPOSE 3000
