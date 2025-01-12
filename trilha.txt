@@ -1,5 +1,5 @@
 
-    - **Atividade prática**:
+    - **Atividade prática em outro repo**:
         Microsserviço:
         - Redis
         - Dockerizar
