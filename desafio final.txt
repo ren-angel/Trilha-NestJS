@@ -61,4 +61,4 @@ Você será responsável por desenvolver uma plataforma para gerenciar eventos c
 - Implementar notificações em tempo real usando WebSockets.  
 - Adicionar monitoramento com Prometheus e Grafana para exibir métricas de performance.  
 - Implementar fila de mensagens para limitar a quantidade de participantes por evento de forma segura.
-- Documentação do projeto no README
+- README + Documentação do projeto no Swagger
