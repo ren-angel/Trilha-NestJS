@@ -1,8 +1,6 @@
 
     - **Atividade prática em outro repo**:
         Microsserviço:
-        - Redis
-        - Dockerizar
         - Monitoramento
         - Deploy em Kubernetes
         - CI/CD
