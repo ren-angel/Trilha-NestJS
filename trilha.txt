@@ -1,7 +1,6 @@
 
     - **Atividade prática em outro repo**:
         Microsserviço:
-        - Monitoramento
         - Deploy em Kubernetes
         - CI/CD
 
