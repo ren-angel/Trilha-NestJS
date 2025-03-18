@@ -1,6 +1,6 @@
 ### **Desafio Prático: Desenvolvendo uma Plataforma de Gerenciamento de Eventos com NestJS**
 
-# [Link](https://github.com/ren-angel/Plataforma-de-Gerenciamento-de-Eventos)do repo do desafio
+# [Link](https://github.com/ren-angel/Plataforma-de-Gerenciamento-de-Eventos) do repo do desafio
 
 #### **Descrição do Desafio**  
 Você será responsável por desenvolver uma plataforma para gerenciar eventos corporativos. O sistema deve permitir que administradores criem eventos, gerenciem participantes e visualizem relatórios de participação. Além disso, deve integrar-se a microsserviços para notificações e relatórios, garantindo uma arquitetura escalável e moderna.
